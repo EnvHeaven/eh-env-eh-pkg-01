@@ -7,3 +7,6 @@
 [submodule "artifacts/envheaven-pkg-plugin-nodejs-pnpm-01"]
 	path = artifacts/envheaven-pkg-plugin-nodejs-pnpm-01
 	url = git@github.com:EnvHeaven/plugins-nodejs-pnpm.git
+[submodule "artifacts/envheaven-pkg-plugin-offiline-web-ui-01"]
+	path = artifacts/envheaven-pkg-plugin-offiline-web-ui-01
+	url = git@github.com:EnvHeaven/plugins-offiline-web-ui.git
