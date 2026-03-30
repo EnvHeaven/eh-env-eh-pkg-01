@@ -1,0 +1,9 @@
+{
+  "name": "jd-env-eh-pkg-01-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Workspace root for EnvHeaven package development and deployment.",
+  "scripts": {
+    "build:packages": "pnpm -r --filter \"./artifacts/*\" build"
+  }
+}
