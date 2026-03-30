@@ -1,0 +1,9 @@
+[submodule "artifacts/envheaven-pkg-01"]
+	path = artifacts/envheaven-pkg-01
+	url = git@github.com:EnvHeaven/EnvHeaven.git
+[submodule "artifacts/envheaven-pkg-plugin-firebase-hosting-deploy-01"]
+	path = artifacts/envheaven-pkg-plugin-firebase-hosting-deploy-01
+	url = git@github.com:EnvHeaven/plugins-firebase-hosting-deploy.git
+[submodule "artifacts/envheaven-pkg-plugin-nodejs-pnpm-01"]
+	path = artifacts/envheaven-pkg-plugin-nodejs-pnpm-01
+	url = git@github.com:EnvHeaven/plugins-nodejs-pnpm.git
