@@ -35,13 +35,13 @@ Expected layer file layout:
 `local-01` defines local developer deployment:
 
 - `pnpm install` at the workspace root
-- recursive package build through the workspace
+- `pnpm -r --if-present run build`
 - `npm install --global <local-path>` for each publishable package
 
 `production-01` defines production publication:
 
 - `pnpm install` at the workspace root
-- recursive package build through the workspace
+- `pnpm -r --if-present run build`
 - `npm whoami` auth check
 - `npm publish` for each publishable package
 - `--access public` for the scoped public EnvHeaven plugin packages
@@ -65,7 +65,7 @@ envheaven
 - valid npm package names
 - npm auth configured before `production-01`
 
-On Windows, EnvHeaven delegates structured execution through WSL in `0.1.0`. Install and configure WSL before invoking deploy commands from Windows hosts.
+On Windows, local package-repo deploy steps that use `pnpm` or `npm` run natively in the Windows host environment in `0.1.0`. Other non-package-manager execution paths still use the existing WSL delegation behavior.
 
 ## Notes
 
