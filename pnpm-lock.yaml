@@ -13,16 +13,10 @@ importers:
       jsonc-parser:
         specifier: ^3.3.1
         version: 3.3.1
-      ws:
-        specifier: ^8.18.3
-        version: 8.20.0
     devDependencies:
       '@types/node':
         specifier: ^24.6.0
         version: 24.12.0
-      '@types/ws':
-        specifier: ^8.18.1
-        version: 8.18.1
       tsx:
         specifier: ^4.20.6
         version: 4.21.0
@@ -83,9 +77,6 @@ importers:
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
-      ws:
-        specifier: ^8.18.3
-        version: 8.20.0
       zone.js:
         specifier: ^0.15.0
         version: 0.15.1
@@ -102,9 +93,6 @@ importers:
       '@types/node':
         specifier: ^24.6.0
         version: 24.12.0
-      '@types/ws':
-        specifier: ^8.18.1
-        version: 8.18.1
       autoprefixer:
         specifier: ^10.4.21
         version: 10.4.27(postcss@8.5.8)
