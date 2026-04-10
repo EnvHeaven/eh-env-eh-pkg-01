@@ -12,3 +12,7 @@ secret-env-map-layers/base-repo-env-map-layers/*
 !secret-env-map-layers/local-user-env-map-layers/
 secret-env-map-layers/local-user-env-map-layers/*
 !secret-env-map-layers/local-user-env-map-layers/.keep
+
+# local-user actions (user-specific, not committed to repo)
+actions/local-user/*
+!actions/local-user/.keep
