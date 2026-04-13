@@ -1,15 +1,15 @@
 [submodule "artifacts/envheaven-pkg-01"]
-	path = artifacts/envheaven-pkg-01
-	url = git@github.com:EnvHeaven/EnvHeaven.git
+        path = artifacts/envheaven-pkg-01
+        url = git@github.com:EnvHeaven/EnvHeaven.git
 [submodule "artifacts/envheaven-pkg-plugin-firebase-hosting-deploy-01"]
-	path = artifacts/envheaven-pkg-plugin-firebase-hosting-deploy-01
-	url = git@github.com:EnvHeaven/plugins-firebase-hosting-deploy.git
+        path = artifacts/envheaven-pkg-plugin-firebase-hosting-deploy-01
+        url = git@github.com:EnvHeaven/plugins-firebase-hosting-deploy.git
 [submodule "artifacts/envheaven-pkg-plugin-nodejs-pnpm-01"]
-	path = artifacts/envheaven-pkg-plugin-nodejs-pnpm-01
-	url = git@github.com:EnvHeaven/plugins-nodejs-pnpm.git
+        path = artifacts/envheaven-pkg-plugin-nodejs-pnpm-01
+        url = git@github.com:EnvHeaven/plugins-nodejs-pnpm.git
 [submodule "artifacts/envheaven-pkg-plugin-offiline-web-ui-01"]
-	path = artifacts/envheaven-pkg-plugin-offiline-web-ui-01
-	url = git@github.com:EnvHeaven/plugins-offiline-web-ui.git
+        path = artifacts/envheaven-pkg-plugin-offiline-web-ui-01
+        url = git@github.com:EnvHeaven/plugins-offiline-web-ui.git
 [submodule "artifacts/envheaven-pkg-plugin-aws-s3-cdn-deploy-01"]
-	path = artifacts/envheaven-pkg-plugin-aws-s3-cdn-deploy-01
-	url = git@github.com:EnvHeaven/plugins-aws-s3-cdn-deploy.git
+        path = artifacts/envheaven-pkg-plugin-aws-s3-cdn-deploy-01
+        url = git@github.com:EnvHeaven/envheaven-pkg-plugin-aws-s3-cdn-deploy-01.git
