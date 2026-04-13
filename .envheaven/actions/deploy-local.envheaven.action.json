@@ -1,0 +1,18 @@
+{
+  "id": "deploy-local",
+  "label": "deploy local",
+  "runCommand": "envheaven deploy local",
+  "stopCommand": null,
+  "icon": "deploy",
+  "description": "",
+  "runLabel": "deploy local",
+  "stopLabel": "n/a",
+  "successHelpers": [],
+  "failHelpers": [],
+  "pageHeaderOptions": {
+    "isFixedOnHeader": true,
+    "hasToReplaceActionText": false,
+    "actionTextToReplace": ""
+  },
+  "buttonColor": "#224422"
+}
