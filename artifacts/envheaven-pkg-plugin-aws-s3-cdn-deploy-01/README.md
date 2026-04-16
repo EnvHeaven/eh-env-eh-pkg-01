@@ -30,7 +30,7 @@ Downloads all remote objects into the local CDN directory. Use this to initializ
 | `ENVHEAVEN_S3_CDN_BUCKET` | `AWS_S3_CDN_BUCKET` | Yes | S3 bucket name |
 | `ENVHEAVEN_S3_CDN_REGION` | `AWS_REGION`, `AWS_DEFAULT_REGION` | Yes | AWS region |
 | `ENVHEAVEN_S3_CDN_PREFIX` | — | No | Key prefix (e.g., `cdn/v1`) |
-| `ENVHEAVEN_S3_CDN_LOCAL_DIR` | `CDN_LOCAL_DIR` | No | Local directory (default: `public/`) |
+| `WEB_SITE_01_CDN_01_LOCAL_FOLDER_PATH` | `CDN_LOCAL_DIR` | No | Local directory (default: `public/`) |
 | `ENVHEAVEN_S3_CDN_ENDPOINT` | — | No | Custom endpoint (MinIO, LocalStack) |
 | `ENVHEAVEN_S3_CDN_FORCE_PATH_STYLE` | — | No | Force path-style URLs (`true`/`false`) |
 

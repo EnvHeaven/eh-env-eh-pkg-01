@@ -47,7 +47,8 @@ export const metadata: AwsS3CdnDeployPluginMetadata = {
 
 function resolveLocalDir(context: PluginRuntimeContext): string {
   const envDir =
-    process.env["ENVHEAVEN_S3_CDN_LOCAL_DIR"] ??
+    // process.env["ENVHEAVEN_S3_CDN_LOCAL_DIR"] ??
+    process.env["WEB_SITE_01_CDN_01_LOCAL_FOLDER_PATH"] ??
     process.env["CDN_LOCAL_DIR"];
   if (envDir) {
     return path.resolve(context.repoRoot, envDir);
