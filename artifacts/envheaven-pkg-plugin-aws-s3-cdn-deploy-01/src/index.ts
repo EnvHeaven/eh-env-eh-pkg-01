@@ -47,7 +47,7 @@ export const metadata: AwsS3CdnDeployPluginMetadata = {
 
 function resolveLocalDir(context: PluginRuntimeContext): string {
   const envDir =
-    // process.env["ENVHEAVEN_S3_CDN_LOCAL_DIR"] ??
+    process.env["ENVHEAVEN_S3_CDN_LOCAL_DIR"] ??
     process.env["WEB_SITE_01_CDN_01_LOCAL_FOLDER_PATH"] ??
     process.env["CDN_LOCAL_DIR"];
   if (envDir) {
@@ -67,7 +67,10 @@ export async function inspect(
   );
   diagnostics.push(...configDiags);
 
-  const localFiles = scanLocalDir(localDir, config?.prefix ?? "");
+  const localFiles = scanLocalDir(localDir, config?.prefix ?? "", {
+    includePaths: config?.includePaths,
+    excludePaths: config?.excludePaths,
+  });
   diagnostics.push({
     severity: "info",
     code: "s3-cdn-local-scan",
@@ -200,7 +203,10 @@ export async function execute(
     };
   }
 
-  const localFiles = scanLocalDir(localDir, config.prefix);
+  const localFiles = scanLocalDir(localDir, config.prefix, {
+    includePaths: config.includePaths,
+    excludePaths: config.excludePaths,
+  });
   const remoteObjects = await listRemoteObjects(client, config);
   const diff = computeDiff(localFiles, remoteObjects);
 

@@ -10,6 +10,8 @@ export interface S3Config {
   bucket: string;
   region: string;
   prefix: string;
+  includePaths: string[];
+  excludePaths: string[];
   endpoint?: string;
   forcePathStyle?: boolean;
 }

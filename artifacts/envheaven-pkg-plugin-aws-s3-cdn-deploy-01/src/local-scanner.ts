@@ -44,7 +44,16 @@ export function computeMd5Hex(absolutePath: string): string {
   return crypto.createHash("md5").update(content).digest("hex");
 }
 
-export function scanLocalDir(baseDir: string, prefix: string): LocalFileEntry[] {
+export interface LocalScanFilters {
+  includePaths?: string[];
+  excludePaths?: string[];
+}
+
+export function scanLocalDir(
+  baseDir: string,
+  prefix: string,
+  filters: LocalScanFilters = {},
+): LocalFileEntry[] {
   if (!fs.existsSync(baseDir)) {
     return [];
   }
@@ -60,6 +69,9 @@ export function scanLocalDir(baseDir: string, prefix: string): LocalFileEntry[] 
         walk(full);
       } else if (item.isFile()) {
         const relativeToCdn = path.relative(baseDir, full).replace(/\\/g, "/");
+        if (!shouldIncludePath(relativeToCdn, filters)) {
+          continue;
+        }
         const key = prefix ? `${prefix}/${relativeToCdn}` : relativeToCdn;
         const stat = fs.statSync(full);
         entries.push({
@@ -75,4 +87,72 @@ export function scanLocalDir(baseDir: string, prefix: string): LocalFileEntry[] 
 
   walk(baseDir);
   return entries;
+}
+
+export function shouldIncludePath(relativePath: string, filters: LocalScanFilters): boolean {
+  const normalizedPath = normalizePath(relativePath);
+  const includePaths = (filters.includePaths ?? []).map(normalizePath).filter(Boolean);
+  const excludePaths = (filters.excludePaths ?? []).map(normalizePath).filter(Boolean);
+
+  const included =
+    includePaths.length === 0 ||
+    includePaths.some((pattern) => matchPathPattern(normalizedPath, pattern));
+
+  if (!included) {
+    return false;
+  }
+
+  return !excludePaths.some((pattern) => matchPathPattern(normalizedPath, pattern));
+}
+
+function matchPathPattern(relativePath: string, pattern: string): boolean {
+  if (!pattern || pattern === ".") {
+    return false;
+  }
+
+  if (!pattern.includes("*")) {
+    return relativePath === pattern || relativePath.startsWith(`${pattern}/`);
+  }
+
+  const regex = new RegExp(`^${patternToRegex(pattern)}$`);
+  return regex.test(relativePath);
+}
+
+function patternToRegex(pattern: string): string {
+  let regex = "";
+  for (let i = 0; i < pattern.length; i += 1) {
+    const char = pattern[i];
+    const next = pattern[i + 1];
+    const prev = pattern[i - 1];
+
+    if (char === "*" && next === "*") {
+      const afterGlobStar = pattern[i + 2];
+      if (prev === "/" && afterGlobStar === "/") {
+        regex = regex.slice(0, -1);
+        regex += "(?:.*/)?";
+        i += 2;
+      } else {
+        regex += ".*";
+        i += 1;
+      }
+      continue;
+    }
+
+    if (char === "*") {
+      regex += "[^/]*";
+      continue;
+    }
+
+    regex += escapeRegex(char);
+  }
+
+  return regex;
+}
+
+function normalizePath(value: string): string {
+  return value.replace(/\\/g, "/").replace(/^\.\/+/, "").replace(/^\/+/, "").replace(/\/+$/, "");
+}
+
+function escapeRegex(value: string): string {
+  return value.replace(/[|\\{}()[\]^$+?.]/g, "\\$&");
 }

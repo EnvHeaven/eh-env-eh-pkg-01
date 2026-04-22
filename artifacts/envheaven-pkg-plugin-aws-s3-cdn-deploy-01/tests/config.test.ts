@@ -32,6 +32,8 @@ test("resolveConfig returns valid config with bucket + region", () => {
   assert.equal(config!.bucket, "my-cdn-bucket");
   assert.equal(config!.region, "eu-west-1");
   assert.equal(config!.prefix, "");
+  assert.deepEqual(config!.includePaths, []);
+  assert.deepEqual(config!.excludePaths, []);
   assert.equal(diagnostics.length, 0);
 });
 
@@ -48,6 +50,19 @@ test("resolveConfig picks up prefix and endpoint", () => {
   assert.equal(config!.prefix, "cdn/v1");
   assert.equal(config!.endpoint, "http://localhost:9000");
   assert.equal(config!.forcePathStyle, true);
+});
+
+test("resolveConfig parses CDN include and exclude path filters", () => {
+  const { config } = resolveConfig({
+    ENVHEAVEN_S3_CDN_BUCKET: "b",
+    ENVHEAVEN_S3_CDN_REGION: "us-east-1",
+    ENVHEAVEN_S3_CDN_INCLUDE_PATHS: "[\"./public/**\", \"assets\"]",
+    ENVHEAVEN_S3_CDN_EXCLUDE_PATHS: "logs/**,tmp/**",
+  });
+
+  assert.ok(config);
+  assert.deepEqual(config!.includePaths, ["public/**", "assets"]);
+  assert.deepEqual(config!.excludePaths, ["logs/**", "tmp/**"]);
 });
 
 test("resolveConfig falls back to AWS_REGION and AWS_S3_CDN_BUCKET", () => {

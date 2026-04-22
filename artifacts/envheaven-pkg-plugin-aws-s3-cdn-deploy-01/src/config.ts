@@ -11,6 +11,8 @@ export function resolveConfig(env: Record<string, string | undefined>): {
   const prefix = env["ENVHEAVEN_S3_CDN_PREFIX"] ?? "";
   const endpoint = env["ENVHEAVEN_S3_CDN_ENDPOINT"];
   const forcePathStyle = env["ENVHEAVEN_S3_CDN_FORCE_PATH_STYLE"] === "true";
+  const includePaths = parsePathList(env["ENVHEAVEN_S3_CDN_INCLUDE_PATHS"]);
+  const excludePaths = parsePathList(env["ENVHEAVEN_S3_CDN_EXCLUDE_PATHS"]);
 
   if (!bucket) {
     diagnostics.push({
@@ -32,11 +34,46 @@ export function resolveConfig(env: Record<string, string | undefined>): {
     return { config: null, diagnostics };
   }
 
-  const config: S3Config = { bucket, region, prefix };
+  const config: S3Config = { bucket, region, prefix, includePaths, excludePaths };
   if (endpoint) {
     config.endpoint = endpoint;
     config.forcePathStyle = forcePathStyle;
   }
 
   return { config, diagnostics };
+}
+
+function parsePathList(value: string | undefined): string[] {
+  if (!value) {
+    return [];
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return [];
+  }
+
+  if (trimmed.startsWith("[")) {
+    try {
+      const parsed = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) {
+        return parsed
+          .map((item) => String(item).trim())
+          .filter(Boolean)
+          .map(normalizePathPattern);
+      }
+    } catch {
+      // Fall back to comma/newline parsing below for invalid JSON values.
+    }
+  }
+
+  return trimmed
+    .split(/[\n,]+/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map(normalizePathPattern);
+}
+
+function normalizePathPattern(value: string): string {
+  return value.replace(/\\/g, "/").replace(/^\.\/+/, "").replace(/^\/+/, "");
 }

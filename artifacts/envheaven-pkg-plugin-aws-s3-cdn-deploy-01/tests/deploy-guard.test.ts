@@ -27,6 +27,8 @@ const fakeConfig: S3Config = {
   bucket: "test-bucket",
   region: "us-east-1",
   prefix: "",
+  includePaths: [],
+  excludePaths: [],
 };
 
 const fakeClient = {} as any;

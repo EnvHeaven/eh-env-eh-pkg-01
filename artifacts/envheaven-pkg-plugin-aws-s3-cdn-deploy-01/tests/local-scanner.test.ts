@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { guessContentType } from "../src/local-scanner";
+import { guessContentType, shouldIncludePath } from "../src/local-scanner";
 
 test("guessContentType returns correct MIME for common extensions", () => {
   assert.equal(guessContentType("file.html"), "text/html");
@@ -23,4 +23,20 @@ test("guessContentType is case-insensitive for extension", () => {
   assert.equal(guessContentType("file.HTML"), "text/html");
   assert.equal(guessContentType("file.JSON"), "application/json");
   assert.equal(guessContentType("file.PNG"), "image/png");
+});
+
+test("path filters allowlist included CDN folders", () => {
+  const filters = { includePaths: ["public/**"], excludePaths: [] };
+
+  assert.equal(shouldIncludePath("public/logo.png", filters), true);
+  assert.equal(shouldIncludePath("public/nested/logo.png", filters), true);
+  assert.equal(shouldIncludePath("logs/raw-events/file.jsonl", filters), false);
+  assert.equal(shouldIncludePath("README.txt", filters), false);
+});
+
+test("path filters exclude matched files after include matching", () => {
+  const filters = { includePaths: ["public/**"], excludePaths: ["public/tmp/**"] };
+
+  assert.equal(shouldIncludePath("public/logo.png", filters), true);
+  assert.equal(shouldIncludePath("public/tmp/debug.json", filters), false);
 });
