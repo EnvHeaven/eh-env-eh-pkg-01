@@ -1,18 +1,18 @@
 {
   "id": "deploy-local",
-  "label": "deploy local",
-  "runCommand": "envheaven deploy local",
+  "label": "\"Label\" field",
+  "runCommand": "pnpm i && eh deploy local",
   "stopCommand": null,
   "icon": "deploy",
   "description": "",
-  "runLabel": "deploy local",
-  "stopLabel": "n/a",
+  "runLabel": "[ALL] deploy local-01",
+  "stopLabel": "\"Stop label\" field",
   "successHelpers": [],
   "failHelpers": [],
   "pageHeaderOptions": {
     "isFixedOnHeader": true,
-    "hasToReplaceActionText": false,
-    "actionTextToReplace": ""
+    "hasToReplaceActionText": true,
+    "actionTextToReplace": "[ALL] deploy local-01"
   },
   "buttonColor": "#224422"
 }
