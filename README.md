@@ -1,124 +1,110 @@
-# jd-env-eh-pkg-01
+<p align="center">
+  <a href="https://envheaven.com">
+    <img src="./docs/readme/logo/envheaven-logo.png" alt="EnvHeaven" width="96" />
+  </a>
+</p>
 
-This repository is both:
+# EnvHeaven package workspace
 
-- a monorepo that stores the EnvHeaven npm packages under `artifacts/`
-- an EnvHeaven env-repo that can materialize package deployment plans
+> Workspace for developing, testing, and publishing the EnvHeaven CLI and plugin packages.
 
-## Workspace layout
+> **Experimental 0.x:** EnvHeaven is currently in experimental `0.x` development. APIs, CLI commands, plugin contracts, package names, and release behavior may change before `1.0.0`. Pin versions and read release notes before using it in production workflows.
 
-- `artifacts/envheaven-pkg-01`
-- `artifacts/envheaven-pkg-plugin-nodejs-pnpm-01`
-- `artifacts/envheaven-pkg-plugin-firebase-hosting-deploy-01`
-- `artifacts/envheaven-pkg-plugin-offiline-web-ui-01`
-- `.envheaven/`
+## What this repo is
 
-## EnvHeaven metadata
+This repository is the EnvHeaven package workspace. It keeps the core CLI package and the first-party plugin packages together for local development and package publishing workflows.
 
-The repo root now includes these env-map areas:
+It is maintainer-facing. For the CLI package itself, start with the `envheaven` package README.
 
-- `.envheaven/safe-env-map-layers/base-repo-env-map-layers/`
-- `.envheaven/secret-env-map-layers/base-repo-env-map-layers/`
-- `.envheaven/secret-env-map-layers/local-user-env-map-layers/`
+## Topology
 
-Versioned repo metadata lives under `.envheaven/safe-env-map-layers/base-repo-env-map-layers/`.
+| Path | Package | Role |
+|---|---|---|
+| `artifacts/envheaven-pkg-01` | `envheaven` | core CLI, daemon, plugin host, environment resolver |
+| `artifacts/envheaven-pkg-plugin-nodejs-pnpm-01` | `@envheaven/plugins-nodejs-pnpm` | pnpm workflow plugin |
+| `artifacts/envheaven-pkg-plugin-firebase-hosting-deploy-01` | `@envheaven/plugins-firebase-hosting-deploy` | Firebase Hosting deploy plugin |
+| `artifacts/envheaven-pkg-plugin-offiline-web-ui-01` | `@envheaven/plugins-offiline-web-ui` | local Offline Web UI package |
+| `artifacts/envheaven-pkg-plugin-aws-s3-cdn-deploy-01` | `@envheaven/plugins-aws-s3-cdn-deploy` | append-only AWS S3 CDN deploy plugin |
 
-Local-user and secret env-map layers live under `.envheaven/secret-env-map-layers/`. The repository keeps `.keep` markers there and ignores the actual secret layer files through `.envheaven/.gitignore`.
+The `offiline` spelling is the current real package name for the UI plugin and must be preserved in commands and package references.
 
-Expected layer file layout:
+## NPM status
 
-- `.envheaven/safe-env-map-layers/base-repo-env-map-layers/repo-base.default.envheaven.env-map-layer.json`
-- `.envheaven/safe-env-map-layers/base-repo-env-map-layers/local-01.envheaven.env-map-layer.json`
-- `.envheaven/secret-env-map-layers/local-user-env-map-layers/production-01.envheaven.env-map-layer.json`
+Verified public packages:
 
-`repo-base.default` defines the package artifacts, workspace deploy steps, and per-package distributors.
+| Package | Public status |
+|---|---|
+| `envheaven` | published |
+| `@envheaven/plugins-nodejs-pnpm` | published |
+| `@envheaven/plugins-firebase-hosting-deploy` | published |
+| `@envheaven/plugins-offiline-web-ui` | published |
+| `@envheaven/plugins-aws-s3-cdn-deploy` | exists locally, public NPM publication was not verified |
 
-`local-01` defines local developer deployment:
+Verified public NPM dist-tags are `latest` and `exp`.
 
-- `pnpm install` at the workspace root
-- `pnpm -r --if-present run build`
-- `npm install --global <local-path>` for each publishable package
+Local version registry tracks may include `exp`, `canary`, `alpha`, `beta`, `rc`, and `release`, but only `latest` and `exp` were verified as public NPM tags.
 
-`production-01` defines production publication:
+## Build
 
-- `pnpm install` at the workspace root
-- `pnpm -r --if-present run build`
-- `npm whoami` auth check
-- `npm publish` for each publishable package
-- `--access public` for the scoped public EnvHeaven plugin packages
-- production package versions come from the local EnvHeaven version registry, not directly from the checked-in `package.json` version field
-- after a successful publish, the registry advances `lastVersion` and `nextVersion`
+```sh
+pnpm install
+pnpm -r --if-present run build
+```
 
-## Expected commands
+## Test
 
-Run these commands from the repository root:
+Each package exposes its own test command when available:
 
-```bash
+```sh
+pnpm -r --if-present test
+```
+
+If a broad recursive test is too noisy during local development, run the targeted package tests from the package directory.
+
+## Local package workflow
+
+This workspace is itself an EnvHeaven env repo. Common commands include:
+
+```sh
 envheaven deploy local
 envheaven deploy local-01
 envheaven deploy production
 envheaven deploy production-01
-envheaven deploy production @envheaven/plugins-offiline-web-ui
 envheaven deploy local envheaven
-envheaven
-envheaven offiline-web-ui
-```
-
-## Prerequisites
-
-- `pnpm` available in the target Linux environment
-- `npm` available in the target Linux environment
-- valid npm package names
-- npm auth configured before `production-01`
-
-On Windows, local package-repo deploy steps that use `pnpm` or `npm` run natively in the Windows host environment in `0.1.0`. Other non-package-manager execution paths still use the existing WSL delegation behavior.
-
-## Offline UI and local state
-
-Running `envheaven` starts the daemon and prints a tip for `envheaven offiline-web-ui`.
-
-Running `envheaven offiline-web-ui` starts the daemon, launches the local UI server, and prints the UI URL. In this repo it prefers the local workspace plugin build; outside this repo it can install the UI package into a per-user cache.
-
-Local state is stored per user:
-
-- Windows: `%LOCALAPPDATA%\\EnvHeaven\\state\\state.json`
-- Linux: `$XDG_STATE_HOME/envheaven/state.json` or `~/.local/state/envheaven/state.json`
-
-The UI and daemon persist:
-
-- recently used env-repo roots
-- selected repo
-- artifact `lastVersion` and `nextVersion`
-
-## Artifact selectors
-
-Deploy commands still default to all artifacts, but you can now select a subset with order-insensitive tags:
-
-```bash
-envheaven deploy production @envheaven/plugins-offiline-web-ui
-envheaven deploy production envheaven-package-01
 envheaven deploy local plugins-nodejs-pnpm
-envheaven deploy local envheaven
 ```
 
-Selectors resolve against artifact names, package names, and common aliases such as unscoped package names. Ambiguous selectors are rejected.
+Production package publishing may temporarily rewrite a package `package.json` version, publish, restore the file, and advance the local version registry on success.
 
-## Production version override and tagging
+## State and secrets
 
-For `production-01`, EnvHeaven resolves the target artifact version from the local version registry. It temporarily rewrites the artifact `package.json` version before `npm publish`, restores the file afterward, and then advances the registry on success.
+EnvHeaven local state is stored outside the repository, for example:
 
-If no registry entry exists yet, EnvHeaven falls back to the artifact's current `package.json` version and reports that fallback in diagnostics.
+```txt
+~/.local/state/envheaven/state.json
+```
 
-Successful production deploys create a local git tag inside the artifact repo when it is a nested git repo or submodule:
+Secret env-map layers are intentionally not versioned. Keep real secret files out of Git.
 
-- `build-v<version>_<deployTarget>`
-- example: `build-v1.0.393_production-01`
+## README assets
 
-Tags stay local by default. Set `EH_GIT_PUSH_TAGS=1` to push them.
+README assets for this repo live under:
 
-## Notes
+```txt
+docs/readme/
+docs/readme/logo/
+docs/readme/drafts/
+```
 
-- This repo keeps the `artifacts/` layout unchanged.
-- Local deployment is only for developer testing.
-- Production deployment publishes the package artifacts to npm and skips private packages if any are added later.
-- `.envheaven/secret-env-map-layers/` stays unversioned except for the `.keep` markers allowed by `.envheaven/.gitignore`.
+The V1 logo source is copied from the Offline Web UI package asset.
+
+## Notes for maintainers
+
+- Do not claim `1.0.0` stability while the package family is still `0.x`.
+- Do not add CI badges unless workflows exist.
+- Do not claim AWS S3 plugin NPM availability until registry publication is verified.
+- Keep package READMEs concise enough for both GitHub and NPM.
+
+## License
+
+Package manifests declare MIT. Add a root license file before linking to one from public READMEs.
