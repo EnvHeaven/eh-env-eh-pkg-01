@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://envheaven.com">
-    <img src="./docs/readme/logo/envheaven-logo.png" alt="EnvHeaven" width="96" />
+    <img src="./docs/readme/logo/envheaven-logo.svg" alt="EnvHeaven" width="96" />
   </a>
 </p>
 
@@ -23,10 +23,10 @@ It is maintainer-facing. For the CLI package itself, start with the `envheaven` 
 | `artifacts/envheaven-pkg-01` | `envheaven` | core CLI, daemon, plugin host, environment resolver |
 | `artifacts/envheaven-pkg-plugin-nodejs-pnpm-01` | `@envheaven/plugins-nodejs-pnpm` | pnpm workflow plugin |
 | `artifacts/envheaven-pkg-plugin-firebase-hosting-deploy-01` | `@envheaven/plugins-firebase-hosting-deploy` | Firebase Hosting deploy plugin |
-| `artifacts/envheaven-pkg-plugin-offiline-web-ui-01` | `@envheaven/plugins-offiline-web-ui` | local Offline Web UI package |
+| `artifacts/envheaven-pkg-plugin-offiline-web-ui-01` | `@envheaven/plugins-offline-web-ui` | local Offline Web UI package; folder/repo rename pending |
 | `artifacts/envheaven-pkg-plugin-aws-s3-cdn-deploy-01` | `@envheaven/plugins-aws-s3-cdn-deploy` | append-only AWS S3 CDN deploy plugin |
 
-The `offiline` spelling is the current real package name for the UI plugin and must be preserved in commands and package references.
+The UI plugin is being migrated from the legacy typo package `@envheaven/plugins-offiline-web-ui` to `@envheaven/plugins-offline-web-ui`. The folder and Git remote still use the old spelling until the repo rename is handled separately.
 
 ## NPM status
 
@@ -37,10 +37,10 @@ Verified public packages:
 | `envheaven` | published |
 | `@envheaven/plugins-nodejs-pnpm` | published |
 | `@envheaven/plugins-firebase-hosting-deploy` | published |
-| `@envheaven/plugins-offiline-web-ui` | published |
-| `@envheaven/plugins-aws-s3-cdn-deploy` | exists locally, public NPM publication was not verified |
+| `@envheaven/plugins-offline-web-ui` | prepared for publication, public NPM publication was not verified |
+| `@envheaven/plugins-aws-s3-cdn-deploy` | prepared for publication, public NPM publication was not verified |
 
-Verified public NPM dist-tags are `latest` and `exp`.
+Verified public NPM dist-tags are `latest` and `exp`. The `release` tag is the intended next publish target.
 
 Local version registry tracks may include `exp`, `canary`, `alpha`, `beta`, `rc`, and `release`, but only `latest` and `exp` were verified as public NPM tags.
 
@@ -96,13 +96,13 @@ docs/readme/logo/
 docs/readme/drafts/
 ```
 
-The V1 logo source is copied from the Offline Web UI package asset.
+The current README logo uses the canonical SVG under `docs/readme/logo/envheaven-logo.svg`. PNG copies remain as fallback assets.
 
 ## Notes for maintainers
 
 - Do not claim `1.0.0` stability while the package family is still `0.x`.
 - Do not add CI badges unless workflows exist.
-- Do not claim AWS S3 plugin NPM availability until registry publication is verified.
+- Do not claim corrected Offline Web UI or AWS S3 plugin NPM availability until registry publication is verified.
 - Keep package READMEs concise enough for both GitHub and NPM.
 
 ## License

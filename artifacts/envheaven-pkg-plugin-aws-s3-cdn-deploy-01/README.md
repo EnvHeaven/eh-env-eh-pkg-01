@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://envheaven.com">
-    <img src="./docs/readme/logo/envheaven-logo.png" alt="EnvHeaven" width="96" />
+    <img src="./docs/readme/logo/envheaven-logo.svg" alt="EnvHeaven" width="96" />
   </a>
 </p>
 
@@ -10,7 +10,7 @@
 
 > **Experimental 0.x:** EnvHeaven is currently in experimental `0.x` development. APIs, CLI commands, plugin contracts, package names, and release behavior may change before `1.0.0`. Pin versions and read release notes before using it in production workflows.
 
-> This plugin exists in the repository, but public NPM publication was not verified in the current consolidate.
+> This plugin is prepared for publication, but public NPM publication was not verified during PRM #2.3.
 
 ## What it does
 
@@ -29,7 +29,7 @@ The plugin is designed to avoid destructive CDN deploy behavior.
 
 ## Install
 
-Public NPM publication was not verified for this package.
+Public NPM publication was not verified for this package during PRM #2.3.
 
 Use it from the local workspace until package publication status is confirmed:
 
@@ -38,11 +38,17 @@ pnpm install
 pnpm --filter @envheaven/plugins-aws-s3-cdn-deploy run build
 ```
 
-Do not assume this command works from the public registry yet:
+After publication, the intended install commands are:
 
 ```sh
-# not verified on NPM
+# release track
+npm install @envheaven/plugins-aws-s3-cdn-deploy@release
+
+# npm default alias for the release track
 npm install @envheaven/plugins-aws-s3-cdn-deploy
+
+# experimental track
+npm install @envheaven/plugins-aws-s3-cdn-deploy@exp
 ```
 
 ## Use
@@ -90,7 +96,7 @@ The resolved execution can use plugin arguments such as `deploy`, `diff`, `inspe
 
 ## Current limitations
 
-- Public NPM package availability was not verified.
+- Public NPM package availability was not verified during PRM #2.3.
 - This is not a build pipeline; build steps belong in other plugins or commands.
 - This is not a full CDN invalidation/orchestration tool.
 - Plugin contracts may change before EnvHeaven `1.0.0`.

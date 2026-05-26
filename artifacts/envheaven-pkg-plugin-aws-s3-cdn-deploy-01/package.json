@@ -8,7 +8,8 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "docs/readme/logo/envheaven-logo.svg"
   ],
   "engines": {
     "node": ">=20"
@@ -27,6 +28,17 @@
     "deploy",
     "append-only"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EnvHeaven/eh-env-eh-pkg-01.git"
+  },
+  "homepage": "https://envheaven.com",
+  "bugs": {
+    "url": "https://github.com/EnvHeaven/eh-env-eh-pkg-01/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "envheaven": "^0.1.0"
   },
