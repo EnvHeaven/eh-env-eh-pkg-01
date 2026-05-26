@@ -1,6 +1,6 @@
 {
   "id": "deploy-local",
-  "label": "\"Label\" field",
+  "label": "[ALL] deploy local-01",
   "runCommand": "pnpm i && eh deploy local",
   "stopCommand": null,
   "icon": "deploy",
