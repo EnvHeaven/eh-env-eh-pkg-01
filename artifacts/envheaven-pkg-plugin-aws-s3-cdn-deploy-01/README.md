@@ -1,111 +1,87 @@
+<br />
+
 <p align="center">
   <a href="https://envheaven.com">
     <img src="./docs/readme/logo/envheaven-logo.svg" alt="EnvHeaven" width="96" />
   </a>
+
+  <h1 align="center">EnvHeaven AWS S3 CDN Deploy Plugin</h1>
+
+  <p align="center">
+    Environment hell, inverted.
+  </p>
+
+  <p align="center">
+    <a href="#install">Install</a>
+    ·
+    <a href="#usage">Usage</a>
+    ·
+    <a href="#release-channels">Release Channels</a>
+  </p>
 </p>
 
-# @envheaven/plugins-aws-s3-cdn-deploy
+<div align="center">
 
-> Local EnvHeaven plugin for append-only AWS S3 CDN deployment workflows.
+[![npm](https://img.shields.io/npm/v/@envheaven/plugins-aws-s3-cdn-deploy)](https://www.npmjs.com/package/@envheaven/plugins-aws-s3-cdn-deploy)
+[![license](https://img.shields.io/npm/l/@envheaven/plugins-aws-s3-cdn-deploy)](#license)
+[![plugin](https://img.shields.io/badge/envheaven-plugin-blue)](#usage)
+[![AWS S3](https://img.shields.io/badge/deploy-AWS%20S3-orange)](#requirements)
+[![status](https://img.shields.io/badge/status-experimental%200.x-orange)](#experimental-0x)
+
+</div>
 
 > **Experimental 0.x:** EnvHeaven is currently in experimental `0.x` development. APIs, CLI commands, plugin contracts, package names, and release behavior may change before `1.0.0`. Pin versions and read release notes before using it in production workflows.
 
-> This plugin is prepared for publication, but public NPM publication was not verified during PRM #2.3.
-
-## What it does
-
-This plugin compares a local static directory with an S3 prefix and deploys only safe additions.
-
-It supports:
-
-- local file scanning.
-- remote S3 object listing.
-- diff/inspect flows.
-- append-only deploys.
-- clone/pull from S3 to a local folder.
-- blocking collisions where a local file would overwrite a different remote object.
-
-The plugin is designed to avoid destructive CDN deploy behavior.
-
 ## Install
 
-Public NPM publication was not verified for this package during PRM #2.3.
+| Channel | Install | Purpose |
+|---|---|---|
+| `release` | `npm install @envheaven/plugins-aws-s3-cdn-deploy@release` | recommended 0.x release track after publication |
+| `latest` | `npm install @envheaven/plugins-aws-s3-cdn-deploy` | npm default alias for the release track after publication |
+| `exp` | `npm install @envheaven/plugins-aws-s3-cdn-deploy@exp` | experimental builds with newer changes after publication |
 
-Use it from the local workspace until package publication status is confirmed:
+Install compatible `envheaven` host package in the same workflow.
 
-```sh
-pnpm install
-pnpm --filter @envheaven/plugins-aws-s3-cdn-deploy run build
-```
+## Usage
 
-After publication, the intended install commands are:
-
-```sh
-# release track
-npm install @envheaven/plugins-aws-s3-cdn-deploy@release
-
-# npm default alias for the release track
-npm install @envheaven/plugins-aws-s3-cdn-deploy
-
-# experimental track
-npm install @envheaven/plugins-aws-s3-cdn-deploy@exp
-```
-
-## Use
-
-Example EnvHeaven execution metadata can point at the local package:
+Deploy static CDN files to S3 with append-only safety rules.
 
 ```jsonc
 {
   "pluginPackage": "@envheaven/plugins-aws-s3-cdn-deploy",
   "Execution": {
-    "cwd": ".",
-    "env": {
-      "ENVHEAVEN_S3_CDN_LOCAL_DIR": "public",
-      "AWS_REGION": "sa-east-1",
-      "AWS_S3_BUCKET": "my-cdn-bucket",
-      "AWS_S3_PREFIX": "site"
-    }
+    "cwd": "."
   }
 }
 ```
 
-Supported action argument examples:
+## What it does
 
-```sh
-envheaven deploy local
-envheaven deploy production
-```
-
-The resolved execution can use plugin arguments such as `deploy`, `diff`, `inspect`, `clone`, or `pull`.
-
-## Safety model
-
-- No remote deletes.
-- No overwriting remote keys with different local content.
-- Collision diagnostics block deploy.
-- Remote-only objects are reported as drift, not deleted.
+- local file scanning.
+- remote S3 object listing.
+- diff/inspect flows.
+- deploy additions only.
+- collision blocking.
 
 ## Requirements
 
-- Node.js `>=20`.
-- EnvHeaven host package.
-- AWS credentials configured in the execution environment.
-- S3 bucket and prefix configured for the target workflow.
-- Local static directory available before deploy.
+Node.js `>=20`, EnvHeaven host package, AWS credentials, and an existing S3 bucket/prefix.
 
-## Current limitations
+## Release Channels
 
-- Public NPM package availability was not verified during PRM #2.3.
-- This is not a build pipeline; build steps belong in other plugins or commands.
-- This is not a full CDN invalidation/orchestration tool.
-- Plugin contracts may change before EnvHeaven `1.0.0`.
+| Channel | Install | Purpose |
+|---|---|---|
+| `release` | `npm install @envheaven/plugins-aws-s3-cdn-deploy@release` | recommended 0.x release track after publication |
+| `latest` | `npm install @envheaven/plugins-aws-s3-cdn-deploy` | npm default alias for the release track after publication |
+| `exp` | `npm install @envheaven/plugins-aws-s3-cdn-deploy@exp` | experimental builds with newer changes after publication |
 
-## Related
+`release` is the recommended 0.x track, not a stable API promise.
+This package is prepared for publication, but current registry verification did not find it on NPM.
 
-- [`envheaven`](https://www.npmjs.com/package/envheaven)
-- [`@envheaven/plugins-nodejs-pnpm`](https://www.npmjs.com/package/@envheaven/plugins-nodejs-pnpm)
-- [`@envheaven/plugins-firebase-hosting-deploy`](https://www.npmjs.com/package/@envheaven/plugins-firebase-hosting-deploy)
+
+## Status
+
+Experimental. Plugin contracts may change before EnvHeaven `1.0.0`.
 
 ## License
 
